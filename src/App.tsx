@@ -1,35 +1,58 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from 'react';
+import './App.css';
+import './index.css';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 4);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
+      <header className={`store-navbar ${open ? 'open' : ''} ${scrolled ? 'scrolled' : ''}`}>
+        <a href='/' className='brand'>
+          <img src="/logo.png" alt="Logo da empresa" />
+          <span className='title'>Minha Empresa</span>
         </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
 
-export default App
+        <button
+          className="hamburger"
+          aria-label="Abrir menu"
+          aria-expanded={open}
+          onClick={() => setOpen(!open)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+
+        <nav className='nav-links'>
+          <a href='#novidades'>Novidades</a>
+          <a href='#promocoes'>Promoções</a>
+          <a href='#categorias'>Categorias</a>
+          <a href='#contato'>Contato</a>
+        </nav>
+
+        <div className='actions'>
+          <div className='search'>
+            <span role="img" aria-label='buscar'>🔍</span>
+            <input type="search" placeholder='Buscar produtos...' />
+          </div>
+          <button className='cart-btn'>
+            🛒 Carrinho
+            <span className='cart-count'>1</span>
+          </button>
+        </div>
+      </header>
+
+      <main>
+        {/* ...conteúdo da sua página... */}
+      </main>
+    </>
+  );
+}
