@@ -1,57 +1,46 @@
-import { useState, useEffect } from 'react';
-import './App.css';
 import './index.css';
 
+const produtos = [
+  { id: 1, nome: 'PRODUTO 1' },
+  { id: 2, nome: 'PRODUTO 2' },
+  { id: 3, nome: 'PRODUTO 3' },
+  { id: 4, nome: 'PRODUTO 4' },
+];
+
 export default function App() {
-  const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 4);
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
   return (
     <>
-      <header className={`store-navbar ${open ? 'open' : ''} ${scrolled ? 'scrolled' : ''}`}>
-        <a href='/' className='brand'>
-          <img src="/logo.png" alt="Logo da empresa" />
-          <span className='title'>Minha Empresa</span>
-        </a>
-
-        <button
-          className="hamburger"
-          aria-label="Abrir menu"
-          aria-expanded={open}
-          onClick={() => setOpen(!open)}
-        >
-          <span />
-          <span />
-          <span />
-        </button>
-
-        <nav className='nav-links'>
-          <a href='#novidades'>Novidades</a>
-          <a href='#promocoes'>Promoções</a>
-          <a href='#categorias'>Categorias</a>
-          <a href='#contato'>Contato</a>
-        </nav>
-
-        <div className='actions'>
-          <div className='search'>
-            <span role="img" aria-label='buscar'>🔍</span>
-            <input type="search" placeholder='Buscar produtos...' />
+      <div className='navbar-wrapper'>
+        <header className="store-navbar">
+          <a href='/' className='brand'>
+            <img src="/logo.png" alt="Logo da empresa" />
+            <span className='title'>Minha Empresa</span>
+          </a>
+          <nav className='nav-links'>
+            <a href='#novidades'>Novidades</a>
+            <a href='#promocoes'>Promoções</a>
+            <a href='#categorias'>Categorias</a>
+            <a href='#contato'>Contato</a>
+          </nav>
+          <div className='actions'>
+            <button className='cart-btn'>
+              🛒 Carrinho
+              <span className='cart-count'>1</span>
+            </button>
           </div>
-          <button className='cart-btn'>
-            🛒 Carrinho
-            <span className='cart-count'>1</span>
-          </button>
-        </div>
-      </header>
-
-      <main>
-        {/* ...conteúdo da sua página... */}
+        </header>
+      </div>
+      <main className="hero-main">
+        <div className="hero-bg" />
+        <section className="products-grid">
+          {produtos.map(produto => (
+            <div className="product-card" key={produto.id}>
+              <div className="product-image"></div>
+              <div className="product-title">{produto.nome}</div>
+              <button className="buy-btn">Comprar</button>
+            </div>
+          ))}
+        </section>
       </main>
     </>
   );
